@@ -1,3 +1,3 @@
 # r-socs-core
 
-This is an experimental library
+This is an experimental library.
