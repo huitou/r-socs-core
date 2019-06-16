@@ -3,12 +3,18 @@ jobs:
   build:
     docker:
       - image: circleci/10.14.2-jessie
+        auth:
+          username: 1rswe
+          password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
       - run: npm build
   test:
     docker:
       - image: circleci/10.14.2-jessie
+        auth:
+          username: 1rswe
+          password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
       - run: npm test
@@ -18,4 +24,3 @@ workflows:
     jobs:
       - build
       - test
-      
