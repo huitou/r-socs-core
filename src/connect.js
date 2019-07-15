@@ -23,7 +23,7 @@ export const connect = (ModelComponent, name) => (TargetComponent) => {
     }
     HInjector.displayName = `hInject(${getDisplayName(TargetComponent)})`;
 
-    const HConnect = (props) => {
+    const HConnect = ({ hprops, ...rest }) => {
         const root = {
             collector: undefined,
             ref: React.createRef(),
@@ -43,8 +43,8 @@ export const connect = (ModelComponent, name) => (TargetComponent) => {
 
         return (
             <React.Fragment>
-                <HInjector {...props} ref={root.ref} getCollector={getCollector} hprops={undefined} />
-                <ModelComponent {...props.hprops} hset={hset} />
+                <HInjector {...rest} ref={root.ref} getCollector={getCollector} />
+                <ModelComponent {...hprops} hset={hset} />
             </React.Fragment>
         );
     };

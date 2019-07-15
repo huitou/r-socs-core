@@ -190,6 +190,42 @@ function _extends() {
   return _extends.apply(this, arguments);
 }
 
+function _objectWithoutPropertiesLoose(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+
+  return target;
+}
+
+function _objectWithoutProperties(source, excluded) {
+  if (source == null) return {};
+
+  var target = _objectWithoutPropertiesLoose(source, excluded);
+
+  var key, i;
+
+  if (Object.getOwnPropertySymbols) {
+    var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
+
+    for (i = 0; i < sourceSymbolKeys.length; i++) {
+      key = sourceSymbolKeys[i];
+      if (excluded.indexOf(key) >= 0) continue;
+      if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
+      target[key] = source[key];
+    }
+  }
+
+  return target;
+}
+
 function getDisplayName(WrappedComponent) {
   return WrappedComponent.displayName || WrappedComponent.name || 'Component';
 }
@@ -308,7 +344,12 @@ const connect = (ModelComponent, name) => TargetComponent => {
 
   HInjector.displayName = `hInject(${getDisplayName$1(TargetComponent)})`;
 
-  const HConnect = props => {
+  const HConnect = (_ref) => {
+    let {
+      hprops
+    } = _ref,
+        rest = _objectWithoutProperties(_ref, ["hprops"]);
+
     const root = {
       collector: undefined,
       ref: React.createRef()
@@ -330,11 +371,10 @@ const connect = (ModelComponent, name) => TargetComponent => {
 
     const getCollector = () => root.collector;
 
-    return React.createElement(React.Fragment, null, React.createElement(HInjector, _extends({}, props, {
+    return React.createElement(React.Fragment, null, React.createElement(HInjector, _extends({}, rest, {
       ref: root.ref,
-      getCollector: getCollector,
-      hprops: undefined
-    })), React.createElement(ModelComponent, _extends({}, props.hprops, {
+      getCollector: getCollector
+    })), React.createElement(ModelComponent, _extends({}, hprops, {
       hset: hset
     })));
   };
@@ -343,6 +383,4 @@ const connect = (ModelComponent, name) => TargetComponent => {
   return HConnect;
 };
 
-// src/main.js
-
-export { Collector, withCollector, connect };
+export { Collector, connect, withCollector };
