@@ -15,9 +15,11 @@ function getDisplayName(WrappedComponent) {
 export const connect = (ModelComponent, name) => (TargetComponent) => {
     class HInjector extends React.Component {
         render() {
-            const collector = this.props.getCollector();
+            const { getCollector, ...rest } = this.props;
+            const collector = getCollector();
+
             return collector
-                ? <TargetComponent {...this.props} getCollector={undefined} {...collector.valueAndHandleTree()} />
+                ? <TargetComponent {...rest} {...collector.valueAndHandleTree()} />
                 : null;
         }
     }
