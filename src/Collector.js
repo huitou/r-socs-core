@@ -15,8 +15,8 @@ const getHandleNode = (inputNode) => {
   inputNode.hfu && inputNode.hfu.hefu && Object
     .entries(inputNode.hfu.hefu)
     .reduce((acc, cur) => { acc[cur[0]] = cur[1]; return acc; }, outputNode.hefu);
-  inputNode.children && Object
-    .entries(inputNode.children)
+  inputNode._childCollectors && Object
+    .entries(inputNode._childCollectors)
     .reduce((acc, cur) => { acc[cur[0]] = getHandleNode(cur[1]); return acc; }, outputNode);
   return outputNode;
 }
@@ -29,8 +29,8 @@ const getValueAndHandleNode = (inputNode) => {
   inputNode.hfu && inputNode.hfu.hefu && Object
     .entries(inputNode.hfu.hefu)
     .reduce((acc, cur) => { acc[cur[0]] = cur[1]; return acc; }, outputNode.hefu);
-  inputNode.children && Object
-    .entries(inputNode.children)
+  inputNode._childCollectors && Object
+    .entries(inputNode._childCollectors)
     .reduce((acc, cur) => { acc[cur[0]] = getValueAndHandleNode(cur[1]); return acc; }, outputNode);
   return outputNode;
 }
