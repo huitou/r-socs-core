@@ -34,13 +34,13 @@ class VisualComponent extends Component {
         this.setState(
             (state) => ({ test: !state.test })
         );
-        this.props.hefu.click();
+        this.props[NAME].hefu.click();
     };
 
     render() {
         return (
             <div className='test' onClick={this.handleClick}>
-                {'' + this.props.hifu.value}
+                {'' + this.props[NAME].hifu.value}
             </div>
         );
     }
@@ -80,8 +80,8 @@ describe("connect function", () => {
         });
 
         it("the visual component receives injected props.", () => {
-            expect(enzymeWrapper.find('VisualComponent').props().hefu.click).toBeDefined();
-            expect(enzymeWrapper.find('VisualComponent').props().hifu).toEqual({ value: true });
+            expect(enzymeWrapper.find('VisualComponent').props()[NAME].hefu.click).toBeDefined();
+            expect(enzymeWrapper.find('VisualComponent').props()[NAME].hifu).toEqual({ value: true });
         });
 
         it("the visual component invokes an injected prop and receives new values on another.", () => {
