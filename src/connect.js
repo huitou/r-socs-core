@@ -18,14 +18,9 @@ export const connect = (ModelComponent, name) => (TargetComponent) => {
             const { getCollector, ...rest } = this.props;
             const collector = getCollector();
 
-            if (collector) {
-                const injectedProps = {};
-                injectedProps[name] = collector.valueAndHandleTree();
-
-                return (<TargetComponent {...rest} {...injectedProps} />)
-            } else {
-                return null;
-            }
+            return collector
+                ? (<TargetComponent {...rest} {...{ [name]: collector.valueAndHandleTree() }} />)
+                : null;
         }
     }
     HInjector.displayName = `hInject(${getDisplayName(TargetComponent)})`;

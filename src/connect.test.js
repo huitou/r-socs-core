@@ -13,15 +13,20 @@ import { shallow, mount } from "enzyme";
 import { CollectedSimpleLogicComponent3 } from './examples/CollectedLogicComponents';
 import { connect } from './connect';
 
+const NAME = 'Test';
+
 class VisualComponent extends Component {
-    static propTypes = {
-        hifu: PropTypes.shape({
-            value: PropTypes.bool.isRequired,
-        }).isRequired,
-        hefu: PropTypes.shape({
-            click: PropTypes.func.isRequired,
-        }).isRequired,
-    };
+    // This component cannot define statically its props:
+    // static propTypes = {
+    //     [NAME]: PropTypes.shape({
+    //         hifu: PropTypes.shape({
+    //             value: PropTypes.bool.isRequired,
+    //         }).isRequired,
+    //         hefu: PropTypes.shape({
+    //             click: PropTypes.func.isRequired,
+    //         }).isRequired,
+    //     })
+    // };
 
     constructor(props) {
         super(props);
@@ -45,8 +50,6 @@ class VisualComponent extends Component {
         );
     }
 }
-
-const NAME = 'Test';
 
 describe("connect function", () => {
     describe("when called with a LModel class and a name parameters", () => {
