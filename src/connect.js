@@ -25,32 +25,36 @@ export const connect = (ModelComponent, name) => (TargetComponent) => {
     }
     HInjector.displayName = `hInject(${getDisplayName(TargetComponent)})`;
 
-    const HConnect = ({ hprops, ...rest }) => {
-        const root = {
+    class HConnect extends React.Component {
+        root = {
             collector: undefined,
             ref: React.createRef(),
         };
 
-        const changeEventHandle = () => {
-            root.ref.current && root.ref.current.forceUpdate();
+        changeEventHandle = () => {
+            this.root.ref.current && this.root.ref.current.forceUpdate();
         };
 
-        const register = (collectorInstance) => {
-            root.collector = collectorInstance;
-            return changeEventHandle;
+        register = (collectorInstance) => {
+            this.root.collector = collectorInstance;
+            return this.changeEventHandle;
         };
 
-        const hset = { name, register };
-        const getCollector = () => root.collector;
+        getCollector = () => this.root.collector;
 
-        return (
-            <React.Fragment>
-                {/* hprops are passed on for eventual nested Models and they reach View at the end */}
-                <HInjector hprops={hprops} {...rest} ref={root.ref} getCollector={getCollector} />
-                {/* hprops are passed to Model to initialise it */}
-                <ModelComponent {...hprops} hset={hset} />
-            </React.Fragment>
-        );
+        render() {
+            const { hprops, ...rest } = this.props;
+            const hset = { name, register: this.register };
+
+            return (
+                <React.Fragment>
+                    {/* hprops are passed on for eventual nested Models and they reach View at the end */}
+                    <HInjector hprops={hprops} {...rest} ref={this.root.ref} getCollector={this.getCollector} />
+                    {/* hprops are passed to Model to initialise it */}
+                    <ModelComponent {...hprops} hset={hset} />
+                </React.Fragment>
+            );
+        }
     };
     HConnect.displayName = `hConnect(${getDisplayName(TargetComponent)})`;
 
