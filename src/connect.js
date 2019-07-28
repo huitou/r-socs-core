@@ -46,7 +46,7 @@ export const connect = (ModelComponent, name) => (TargetComponent) => {
         return (
             <React.Fragment>
                 {/* hprops are passed on for eventual nested Models and they reach View at the end */}
-                <HInjector {...hprops} {...rest} ref={root.ref} getCollector={getCollector} />
+                <HInjector hprops={hprops} {...rest} ref={root.ref} getCollector={getCollector} />
                 {/* hprops are passed to Model to initialise it */}
                 <ModelComponent {...hprops} hset={hset} />
             </React.Fragment>

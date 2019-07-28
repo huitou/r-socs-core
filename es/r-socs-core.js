@@ -337,7 +337,9 @@ const connect = (ModelComponent, name) => TargetComponent => {
 
     const getCollector = () => root.collector;
 
-    return React.createElement(React.Fragment, null, React.createElement(HInjector, _extends({}, hprops, rest, {
+    return React.createElement(React.Fragment, null, React.createElement(HInjector, _extends({
+      hprops: hprops
+    }, rest, {
       ref: root.ref,
       getCollector: getCollector
     })), React.createElement(ModelComponent, _extends({}, hprops, {
