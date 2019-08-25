@@ -9,7 +9,7 @@
 import React, { Component, Fragment } from 'react';
 import { object } from 'prop-types';
 
-import Collector, { withCollector } from '../collector';
+import Collector, { withCollector } from '../collector/index';
 
 class MapModelComponent extends Component {
     static propTypes = {

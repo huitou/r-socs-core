@@ -5,8 +5,8 @@
 
     Licensed under the MIT License. See LICENSE file in the project root for full license information.
 */
-import Collector, { withCollector } from './collector';
-import { connect, connectMap } from './connect';
+import Collector, { withCollector } from './collector/index';
+import { connect, connectMap } from './connect/index';
 
 export {
   Collector,
