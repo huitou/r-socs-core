@@ -19,7 +19,7 @@ export const connect = (ModelComponent, name) => (TargetComponent) => {
             const collector = getCollector();
 
             return collector
-                ? (<TargetComponent {...rest} {...{ [name]: collector.valueAndHandleTree() }} />)
+                ? (<TargetComponent {...rest} {...{ [collector.getName()]: collector.valueAndHandleTree() }} />)
                 : null;
         }
     }
