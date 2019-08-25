@@ -18,8 +18,6 @@ export const connect = (Model, name) => (TargetComponent) => {
             const { getCollector, ...rest } = this.props;
             const collector = getCollector();
 
-            console.log('HInjector render invoked with', collector && collector.valueAndHandleTree().simple1.hifu.value );
-
             return collector
                 ? (<TargetComponent {...rest} {...{ [collector.getName()]: collector.valueAndHandleTree() }} />)
                 : null;
