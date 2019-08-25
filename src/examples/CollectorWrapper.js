@@ -1,5 +1,5 @@
-import { withCollector } from '../withCollector';
-import Collector from "../Collector";
+import { withCollector } from '../collector/withCollector';
+import Collector from "../collector/Collector";
 
 const CollectorWrapper = withCollector(Collector);
 

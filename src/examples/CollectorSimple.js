@@ -5,7 +5,7 @@
   Licensed under the MIT License. See LICENSE file in the project root for full license information.
 */
 
-import Collector from '../Collector';
+import Collector from '../collector/Collector';
 
 export default class CollectorSimple extends Collector {
     static handleMap = {

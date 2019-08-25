@@ -1,5 +1,5 @@
 /*
-    It connects a map of model components to a target component and inject provided values and handles.
+    It collects a map of models as its children.
 
     Copyright (c) 2019 Riverside Software Engineering Ltd. All rights reserved.
 
@@ -9,27 +9,28 @@
 import React, { Component, Fragment } from 'react';
 import { object } from 'prop-types';
 
-import Collector from './Collector';
-import { withCollector } from "./withCollector";
+import Collector, { withCollector } from '../collector';
 
 class MapModelComponent extends Component {
     static propTypes = {
         hprops: object,
-        map: object,
+        map: object,        // TODO: be more specific.
     };
 
     mappedNodes = () => {
         const { hprops, map } = this.props;
 
         return Object.entries(map).map(([name, Model]) => {
-            <Model {...hprops} hset={this.hset(name)} />
+            return (<Model key={name} {...hprops} hset={this.hset(name)} />);
         });
     };
 
     render() {
-        <Fragment>
-            {this.mappedNodes()}
-        </Fragment>
+        return (
+            <Fragment>
+                {this.mappedNodes()}
+            </Fragment>
+        );
     }
 }
 

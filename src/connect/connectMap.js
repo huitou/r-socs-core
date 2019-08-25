@@ -9,11 +9,11 @@
 import React from 'react';
 
 import { connect } from './connect';
-import { MapModel } from './MapModel';
+import { MapModel } from '../models';
 
 export const connectMap = (map, name) => {
-    const CompositeModel = () => ({ hprops }) => (
-        <MapModel { ...hprops } map={map} />
+    const CompositeModel = (props) => (
+        <MapModel { ...props } map={map} />
     )
-    connect(CompositeModel, name);
+    return connect(CompositeModel, name);
 }

@@ -12,11 +12,13 @@ function getDisplayName(WrappedComponent) {
     return WrappedComponent.displayName || WrappedComponent.name || 'Component';
 }
 
-export const connect = (ModelComponent, name) => (TargetComponent) => {
+export const connect = (Model, name) => (TargetComponent) => {
     class HInjector extends React.Component {
         render() {
             const { getCollector, ...rest } = this.props;
             const collector = getCollector();
+
+            console.log('HInjector render invoked with', collector && collector.valueAndHandleTree().simple1.hifu.value );
 
             return collector
                 ? (<TargetComponent {...rest} {...{ [collector.getName()]: collector.valueAndHandleTree() }} />)
@@ -32,6 +34,7 @@ export const connect = (ModelComponent, name) => (TargetComponent) => {
         };
 
         changeEventHandle = () => {
+            console.log('root changeEventHandle invoked and this.root.ref.current is', !!this.root.ref.current);
             this.root.ref.current && this.root.ref.current.forceUpdate();
         };
 
@@ -51,7 +54,7 @@ export const connect = (ModelComponent, name) => (TargetComponent) => {
                     {/* hprops are passed on for eventual nested Models and they reach View at the end */}
                     <HInjector hprops={hprops} {...rest} ref={this.root.ref} getCollector={this.getCollector} />
                     {/* hprops are passed to Model to initialise it */}
-                    <ModelComponent {...hprops} hset={hset} />
+                    <Model {...hprops} hset={hset} />
                 </React.Fragment>
             );
         }

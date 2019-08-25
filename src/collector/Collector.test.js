@@ -1,8 +1,8 @@
 /*
-  Testing for Collector.
+    Testing for Collector.
 
-  Copyright (c) 2018 Riverside Software Engineering Ltd. All rights reserved.
-  Licensed under the MIT License. See LICENSE file in the project root for full license information.
+    Copyright (C) 2018-2019 Riverside Software Engineering Ltd. All rights reserved.
+    Licensed under the MIT License. See LICENSE file in the project root for full license information.
 */
 
 import Collector from './Collector';
@@ -43,5 +43,4 @@ describe('Collector', () => {
             expect(collectorInstance._childCollectors).toEqual({});
         });
     });
-
 });

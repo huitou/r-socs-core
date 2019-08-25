@@ -10,7 +10,7 @@ import React, { Component } from "react";
 import PropTypes from 'prop-types';
 import { shallow, mount } from "enzyme";
 
-import { CollectedSimpleLogicComponent3 } from './examples/CollectedLogicComponents';
+import { CollectedSimpleLogicComponent3 } from '../examples/CollectedLogicComponents';
 import { connect } from './connect';
 
 const NAME = 'Test';
