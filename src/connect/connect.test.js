@@ -7,9 +7,9 @@
 */
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
-import { shallow, mount } from "enzyme";
+import { mount } from "enzyme";
 
-import { CollectedSimpleLogicComponent3 } from '../examples/CollectedLogicComponents';
+import CollectedSimpleLogicComponent3 from '../test-helpers/SimpleLogic';
 import { connect } from './connect';
 
 const NAME = 'Test';
@@ -75,7 +75,6 @@ describe("connect function", () => {
 		});
 
 		it("render the logic component and a Wrapper component with the wrapped visual component", () => {
-			expect(enzymeWrapper.find('.simpleLogicComponent3').length).toBe(1);
 			expect(enzymeWrapper.find('hInject(VisualComponent)').length).toBe(1);
 			expect(enzymeWrapper.find('VisualComponent').length).toBe(1);
 		});
