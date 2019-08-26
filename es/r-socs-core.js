@@ -1,9 +1,8 @@
 import React, { Component, Fragment } from 'react';
-import PropTypes, { object } from 'prop-types';
+import PropTypes, { any, objectOf, elementType } from 'prop-types';
 
 /*
-	This is a generic Collector class which may be
-	used directly for hoisting child handles or
+	Collector - This is a generic class which may be used directly for hoisting child handles or
 	used as base class for concrete Collector classes.
 
 	Copyright (C) 2018-2019 Riverside Software Engineering Ltd. All rights reserved.
@@ -271,11 +270,11 @@ const withCollector = Collector => LogicComponent => {
 };
 
 /*
-    collector Directory.
+	collector Directory.
 
-    Copyright (c) 2019 Riverside Software Engineering Ltd. All rights reserved.
+	Copyright (C) 2019 Riverside Software Engineering Ltd. All rights reserved.
 
-    Licensed under the MIT License. See LICENSE file in the project root for full license information.
+	Licensed under the MIT License. See LICENSE file in the project root for full license information.
 */
 
 function getDisplayName$1(WrappedComponent) {
@@ -371,9 +370,8 @@ class MapModelComponent extends Component {
 }
 
 _defineProperty(MapModelComponent, "propTypes", {
-  hprops: object,
-  map: object // TODO: be more specific.
-
+  hprops: any,
+  map: objectOf(elementType).isRequired
 });
 
 const MapModel = withCollector(Collector)(MapModelComponent);

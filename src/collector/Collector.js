@@ -1,39 +1,37 @@
 /*
-	This is a generic Collector class which may be
-	used directly for hoisting child handles or
+	Collector - This is a generic class which may be used directly for hoisting child handles or
 	used as base class for concrete Collector classes.
 
 	Copyright (C) 2018-2019 Riverside Software Engineering Ltd. All rights reserved.
 
 	Licensed under the MIT License. See LICENSE file in the project root for full license information.
 */
-
 const getHandleNode = (inputNode) => {
-  const outputNode = { hifu: {}, hefu: {} };
-  inputNode.hfu && inputNode.hfu.hifu && Object
-    .entries(inputNode.hfu.hifu)
-    .reduce((acc, cur) => { acc[cur[0]] = cur[1]; return acc; }, outputNode.hifu);
-  inputNode.hfu && inputNode.hfu.hefu && Object
-    .entries(inputNode.hfu.hefu)
-    .reduce((acc, cur) => { acc[cur[0]] = cur[1]; return acc; }, outputNode.hefu);
-  inputNode._childCollectors && Object
-    .entries(inputNode._childCollectors)
-    .reduce((acc, cur) => { acc[cur[0]] = getHandleNode(cur[1]); return acc; }, outputNode);
-  return outputNode;
+	const outputNode = { hifu: {}, hefu: {} };
+	inputNode.hfu && inputNode.hfu.hifu && Object
+		.entries(inputNode.hfu.hifu)
+		.reduce((acc, cur) => { acc[cur[0]] = cur[1]; return acc; }, outputNode.hifu);
+	inputNode.hfu && inputNode.hfu.hefu && Object
+		.entries(inputNode.hfu.hefu)
+		.reduce((acc, cur) => { acc[cur[0]] = cur[1]; return acc; }, outputNode.hefu);
+	inputNode._childCollectors && Object
+		.entries(inputNode._childCollectors)
+		.reduce((acc, cur) => { acc[cur[0]] = getHandleNode(cur[1]); return acc; }, outputNode);
+	return outputNode;
 }
 
 const getValueAndHandleNode = (inputNode) => {
-  const outputNode = { hifu: {}, hefu: {} };
-  inputNode.hfu && inputNode.hfu.hifu && Object
-    .entries(inputNode.hfu.hifu)
-    .reduce((acc, cur) => { acc[cur[0]] = cur[1](); return acc; }, outputNode.hifu);
-  inputNode.hfu && inputNode.hfu.hefu && Object
-    .entries(inputNode.hfu.hefu)
-    .reduce((acc, cur) => { acc[cur[0]] = cur[1]; return acc; }, outputNode.hefu);
-  inputNode._childCollectors && Object
-    .entries(inputNode._childCollectors)
-    .reduce((acc, cur) => { acc[cur[0]] = getValueAndHandleNode(cur[1]); return acc; }, outputNode);
-  return outputNode;
+	const outputNode = { hifu: {}, hefu: {} };
+	inputNode.hfu && inputNode.hfu.hifu && Object
+		.entries(inputNode.hfu.hifu)
+		.reduce((acc, cur) => { acc[cur[0]] = cur[1](); return acc; }, outputNode.hifu);
+	inputNode.hfu && inputNode.hfu.hefu && Object
+		.entries(inputNode.hfu.hefu)
+		.reduce((acc, cur) => { acc[cur[0]] = cur[1]; return acc; }, outputNode.hefu);
+	inputNode._childCollectors && Object
+		.entries(inputNode._childCollectors)
+		.reduce((acc, cur) => { acc[cur[0]] = getValueAndHandleNode(cur[1]); return acc; }, outputNode);
+	return outputNode;
 }
 
 class Collector {
@@ -102,8 +100,8 @@ class Collector {
 */
 Collector.handleMap = {
   hfu: {
-    hifu: { /* getXxx: 'getXxx', xxx: 'getXxx' */ },
-    hefu: { /* setAaa: 'setBbb' */ },
+	hifu: { /* getXxx: 'getXxx', xxx: 'getXxx' */ },
+	hefu: { /* setAaa: 'setBbb' */ },
   },
 };
 
