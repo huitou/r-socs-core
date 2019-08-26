@@ -48,7 +48,6 @@ class LogicComponent extends Component {
 
 	render() {
 		const { level } = this.props;
-		// console.log('orginal rende() at level ', level);
 		const Nested = withCollector(Collector)(LogicComponent);
 
 		return (
