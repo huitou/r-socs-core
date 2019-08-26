@@ -1,13 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { Component, Fragment } from 'react';
+import PropTypes, { any, objectOf, elementType } from 'prop-types';
 
 /*
-  This is a generic Collector class which may be
-  used directly for hoisting child handles or
-  used as base class for concrete Collector classes.
+	Collector - This is a generic class which may be used directly for hoisting child handles or
+	used as base class for concrete Collector classes.
 
-  Copyright (c) 2018 Riverside Software Engineering Ltd. All rights reserved.
-  Licensed under the MIT License. See LICENSE file in the project root for full license information.
+	Copyright (C) 2018-2019 Riverside Software Engineering Ltd. All rights reserved.
+
+	Licensed under the MIT License. See LICENSE file in the project root for full license information.
 */
 const getHandleNode = inputNode => {
   const outputNode = {
@@ -51,24 +51,15 @@ const getValueAndHandleNode = inputNode => {
 
 class Collector {
   /*
-    Mandatory declaration, overridable.
-  */
-  // static handleMap = {
-  //   hfu: {
-  //     hifu: { /* getXxx: 'getXxx', xxx: 'getXxx' */ },
-  //     hefu: { /* setAaa: 'setBbb' */ },
-  //   },
-  // };
-
-  /*
-    Constructor expects a configuration object of the following shape:
-      { register: (Collector) => () => any, name: string }
+  	Constructor expects a configuration object of the following shape:
+  	{ register: (Collector) => () => any, name: string }
   */
   constructor({
     name,
     register
   }) {
-    this._name = name;
+    this._name = name; // using the received register function to register itself and obtain the change event handle.
+
     this._changeEventHandle = register(this);
     this._isChangeEventSwitchOn = true;
     this._childCollectors = {};
@@ -76,12 +67,12 @@ class Collector {
     this.setChangeEventSwitchOn = this.setChangeEventSwitchOn.bind(this);
     this.setChangeEventSwitchOff = this.setChangeEventSwitchOff.bind(this);
     this.changeEveneHandle = this.changeEveneHandle.bind(this);
+    this.handleTree = this.handleTree.bind(this);
+    this.valueAndHandleTree = this.valueAndHandleTree.bind(this);
     this.hfuRegister = this.hfuRegister.bind(this);
     this.hfuUnregister = this.hfuUnregister.bind(this);
     this.childCollectorRegister = this.childCollectorRegister.bind(this);
     this.childCollectorUnregister = this.childCollectorUnregister.bind(this);
-    this.handleTree = this.handleTree.bind(this);
-    this.valueAndHandleTree = this.valueAndHandleTree.bind(this);
     this.counter = 0;
   }
 
@@ -98,9 +89,15 @@ class Collector {
   }
 
   changeEveneHandle() {
-    if (this._isChangeEventSwitchOn) {
-      this._changeEventHandle();
-    }
+    this._isChangeEventSwitchOn && this._changeEventHandle();
+  }
+
+  handleTree() {
+    return getHandleNode(this);
+  }
+
+  valueAndHandleTree() {
+    return getValueAndHandleNode(this);
   }
 
   hfuRegister(hfu) {
@@ -130,14 +127,6 @@ class Collector {
   childCollectorUnregister(childCollector) {
     this._childCollectors[childCollector.getName()] = undefined;
     return childCollector;
-  }
-
-  handleTree() {
-    return getHandleNode(this);
-  }
-
-  valueAndHandleTree() {
-    return getValueAndHandleNode(this);
   }
 
 }
@@ -197,8 +186,7 @@ function getDisplayName(WrappedComponent) {
 const withCollector = Collector => LogicComponent => {
   class ExtendedComponent extends LogicComponent {
     constructor(props) {
-      super(props); // console.log('extended constructor at level ', this.props.level);
-
+      super(props);
       this._collector = new Collector(props.hset);
       this.hset = this.hset.bind(this);
     }
@@ -212,14 +200,12 @@ const withCollector = Collector => LogicComponent => {
     }
 
     render() {
-      // console.log('extended rende() at level ', this.props.level);
       this._collector.setChangeEventSwitchOff();
 
       return super.render && super.render();
     }
 
     componentDidMount() {
-      // console.log('extended componentDidMount at level ', this.props.level);
       super.componentDidMount && super.componentDidMount();
 
       if (Collector.handleMap && Collector.handleMap.hfu) {
@@ -227,12 +213,12 @@ const withCollector = Collector => LogicComponent => {
           hifu: {},
           hefu: {}
         };
-        Collector.handleMap.hfu.hifu && Object.entries(Collector.handleMap.hfu.hifu).reduce((acc, cur) => {
-          acc[cur[0]] = this[cur[1]];
+        Collector.handleMap.hfu.hifu && Object.entries(Collector.handleMap.hfu.hifu).reduce((acc, [key, val]) => {
+          acc[key] = this[val];
           return acc;
         }, hfu.hifu);
-        Collector.handleMap.hfu.hefu && Object.entries(Collector.handleMap.hfu.hefu).reduce((acc, cur) => {
-          acc[cur[0]] = this[cur[1]];
+        Collector.handleMap.hfu.hefu && Object.entries(Collector.handleMap.hfu.hefu).reduce((acc, [key, val]) => {
+          acc[key] = this[val];
           return acc;
         }, hfu.hefu);
 
@@ -245,7 +231,6 @@ const withCollector = Collector => LogicComponent => {
     }
 
     componentDidUpdate() {
-      // console.log('extended componentDidUpdate at level ', this.props.level);
       super.componentDidUpdate && super.componentDidUpdate();
 
       this._collector.setChangeEventSwitchOn();
@@ -256,7 +241,7 @@ const withCollector = Collector => LogicComponent => {
     componentWillUnmount() {
       const {
         unregister
-      } = this.props.hset; // console.log('extended componentWillUnmount at level ', this.props.level);
+      } = this.props.hset;
 
       this._collector.hfuUnregister();
 
@@ -274,13 +259,6 @@ const withCollector = Collector => LogicComponent => {
     }).isRequired
   });
 
-  ExtendedComponent.propTypes = {
-    hset: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      register: PropTypes.func.isRequired,
-      unregister: PropTypes.func
-    }).isRequired
-  };
   ExtendedComponent.displayName = `${getDisplayName(LogicComponent)}`;
 
   const HCollector = props => {
@@ -291,11 +269,19 @@ const withCollector = Collector => LogicComponent => {
   return HCollector;
 };
 
+/*
+	collector Directory.
+
+	Copyright (C) 2019 Riverside Software Engineering Ltd. All rights reserved.
+
+	Licensed under the MIT License. See LICENSE file in the project root for full license information.
+*/
+
 function getDisplayName$1(WrappedComponent) {
   return WrappedComponent.displayName || WrappedComponent.name || 'Component';
 }
 
-const connect = (ModelComponent, name) => TargetComponent => {
+const connect = (Model, name) => TargetComponent => {
   class HInjector extends React.Component {
     render() {
       const {
@@ -304,7 +290,7 @@ const connect = (ModelComponent, name) => TargetComponent => {
       } = this.props;
       const collector = getCollector();
       return collector ? React.createElement(TargetComponent, _extends({}, rest, {
-        [name]: collector.valueAndHandleTree()
+        [collector.getName()]: collector.valueAndHandleTree()
       })) : null;
     }
 
@@ -322,6 +308,7 @@ const connect = (ModelComponent, name) => TargetComponent => {
       });
 
       _defineProperty(this, "changeEventHandle", () => {
+        console.log('root changeEventHandle invoked and this.root.ref.current is', !!this.root.ref.current);
         this.root.ref.current && this.root.ref.current.forceUpdate();
       });
 
@@ -347,7 +334,7 @@ const connect = (ModelComponent, name) => TargetComponent => {
       }, rest, {
         ref: this.root.ref,
         getCollector: this.getCollector
-      })), React.createElement(ModelComponent, _extends({}, hprops, {
+      })), React.createElement(Model, _extends({}, hprops, {
         hset: hset
       })));
     }
@@ -357,4 +344,44 @@ const connect = (ModelComponent, name) => TargetComponent => {
   return HConnect;
 };
 
-export { Collector, connect, withCollector };
+class MapModelComponent extends Component {
+  constructor(...args) {
+    super(...args);
+
+    _defineProperty(this, "mappedNodes", () => {
+      const {
+        hprops,
+        map
+      } = this.props;
+      return Object.entries(map).map(([name, Model]) => {
+        return React.createElement(Model, _extends({
+          key: name
+        }, hprops, {
+          hset: this.hset(name)
+        }));
+      });
+    });
+  }
+
+  render() {
+    return React.createElement(Fragment, null, this.mappedNodes());
+  }
+
+}
+
+_defineProperty(MapModelComponent, "propTypes", {
+  hprops: any,
+  map: objectOf(elementType).isRequired
+});
+
+const MapModel = withCollector(Collector)(MapModelComponent);
+
+const connectMap = (map, name) => {
+  const CompositeModel = props => React.createElement(MapModel, _extends({}, props, {
+    map: map
+  }));
+
+  return connect(CompositeModel, name);
+};
+
+export { Collector, connect, connectMap, withCollector };

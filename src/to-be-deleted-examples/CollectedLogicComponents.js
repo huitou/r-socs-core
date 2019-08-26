@@ -5,7 +5,7 @@ import CompositeLogicComponent from './CompositeLogicComponent';
 import SimpleLogicComponent1 from './SimpleLogicComponent1';
 import SimpleLogicComponent2 from './SimpleLogicComponent2';
 
-import { withCollector } from '../withCollector';
+import { withCollector } from '../collector/withCollector';
 import CollectorSimple from './CollectorSimple';
 import SimpleLogicComponent3 from './SimpleLogicComponent3';
 
