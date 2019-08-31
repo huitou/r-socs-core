@@ -22,7 +22,7 @@ export const connect = (Model, name) => (TargetComponent) => {
 				: null;
 		}
 	}
-	HInjector.displayName = `hInject(${getDisplayName(TargetComponent)})`;
+	HInjector.displayName = `hInject(${getDisplayName(Model)}-${getDisplayName(TargetComponent)})`;
 
 	class HConnect extends React.Component {
 		root = {
@@ -54,7 +54,7 @@ export const connect = (Model, name) => (TargetComponent) => {
 			);
 		}
 	};
-	HConnect.displayName = `hConnect(${getDisplayName(TargetComponent)})`;
+	HConnect.displayName = `hConnect(${getDisplayName(Model)}-${getDisplayName(TargetComponent)})`;
 
 	return HConnect;
 };
