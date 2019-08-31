@@ -296,7 +296,7 @@ const connect = (Model, name) => TargetComponent => {
 
   }
 
-  HInjector.displayName = `hInject(${getDisplayName$1(TargetComponent)})`;
+  HInjector.displayName = `hInject(${getDisplayName$1(Model)}-${getDisplayName$1(TargetComponent)})`;
 
   class HConnect extends React.Component {
     constructor(...args) {
@@ -333,7 +333,7 @@ const connect = (Model, name) => TargetComponent => {
     }
 
   }
-  HConnect.displayName = `hConnect(${getDisplayName$1(TargetComponent)})`;
+  HConnect.displayName = `hConnect(${getDisplayName$1(Model)}-${getDisplayName$1(TargetComponent)})`;
   return HConnect;
 };
 

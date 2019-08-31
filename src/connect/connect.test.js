@@ -13,43 +13,46 @@ import { connect } from './connect';
 
 const NAME = 'Test';
 const TargetComponent = () => (<div />);
+const ownProps = { whatever: {} };
 
 describe("connect function", () => {
-	describe("when called with a LModel class and a name parameters", () => {
-		it("returns a wrapper function", () => {
+	describe("when called with a logic model class and a name parameters", () => {
+		it("returns an HOC", () => {
 			const wrapperFunction = connect(SimpleLogic, NAME);
 			expect(typeof wrapperFunction).toBe('function');
 		});
 	});
 
-	describe("when the returned wrapper function is called", () => {
+	describe("when the returned HOC is called with a target component", () => {
 		it("returns a component", () => {
 			const ReturnedComponent = connect(SimpleLogic, NAME)(TargetComponent);
 			expect(typeof ReturnedComponent).toBe('function');
 		});
 	});
 
-	describe("when the returned component is mounted with proper props", () => {
+	describe("when the returned component is mounted with any props", () => {
 		let ReturnedComponent, enzymeWrapper;
 		beforeEach(() => {
 			ReturnedComponent = connect(SimpleLogic, NAME)(TargetComponent);
-			enzymeWrapper = mount(<ReturnedComponent />);
+			enzymeWrapper = mount(<ReturnedComponent {...ownProps} />);
 		});
 		afterEach(() => {
 			jest.clearAllMocks();
 		});
 
-		it("render the logic component and a Wrapper component with the wrapped target component", () => {
-			expect(enzymeWrapper.find('hInject(TargetComponent)').length).toBe(1);
-			expect(enzymeWrapper.find('TargetComponent').length).toBe(1);
-		});
-
-		it("the visual component receives injected props.", () => {
+		it("the target component receives both injected props and own props.", () => {
 			expect(enzymeWrapper.find('TargetComponent').props()[NAME].hefu.click).toBeDefined();
 			expect(enzymeWrapper.find('TargetComponent').props()[NAME].hifu).toEqual({ value: true });
+			const { Test, ...rest } = enzymeWrapper.find('TargetComponent').props();
+			expect(rest).toEqual(ownProps);
 		});
 
-		it("the props injected into visual component are functioning as expected.", () => {
+		it("the logic model receives own props.", () => {
+			const { hset, ...rest } = enzymeWrapper.find(SimpleLogic).props();
+			expect(rest).toEqual(ownProps);
+		});
+
+		it("the props injected into target component are functioning as expected.", () => {
 			expect(enzymeWrapper.find('TargetComponent').props()[NAME].hifu).toEqual({ value: true });
 
 			enzymeWrapper.find('TargetComponent').props()[NAME].hefu.click();
@@ -59,6 +62,15 @@ describe("connect function", () => {
 			enzymeWrapper.find('TargetComponent').props()[NAME].hefu.click();
 			enzymeWrapper.find('TargetComponent').update();
 			expect(enzymeWrapper.find('TargetComponent').props()[NAME].hifu).toEqual({ value: true });
+		});
+
+		it("renders the logic model and component, the target component with some wrappers", () => {
+			expect(enzymeWrapper.find('hCollect(SimpleLogicComponent)').length).toBe(1);	// Logic model (collected logic component):
+			expect(enzymeWrapper.find('SimpleLogicComponent').length).toBe(1);				// Logic component:
+			
+			expect(enzymeWrapper.find('hConnect(hCollect(SimpleLogicComponent)-TargetComponent)').length).toBe(1);
+			expect(enzymeWrapper.find('hInject(hCollect(SimpleLogicComponent)-TargetComponent)').length).toBe(1);
+			expect(enzymeWrapper.find('TargetComponent').length).toBe(1);
 		});
 	});
 });
