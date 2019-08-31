@@ -29,7 +29,7 @@ const map = { simple1: SimpleLogic, simple2: SimpleLogic };
 // Mount directly MapModel for testing:
 describe('MapModel,', () => {
 	it('when mounted, has mapped children', () => {
-		const wrapper = mount(<div><MapModel hset={rootHset} hprops={{}} map={map} /></div>)
+		const wrapper = mount(<div><MapModel hset={rootHset} map={map} /></div>)
 		expect(wrapper.find(SimpleLogic).length).toBe(2);
 	});
 });
@@ -39,7 +39,7 @@ describe('MapModel used through connectMap', () => {
 	it('provides expected props to the target component', async () => {
 		const TargetComponent = (props) => (<div />);
 		const ConnectedTargetComponent = connectMap(map, 'mapped')(TargetComponent);
-		const wrapper = mount(<ConnectedTargetComponent hprops={{}} />);
+		const wrapper = mount(<ConnectedTargetComponent />);
 
 		expect(wrapper.find(TargetComponent).length).toBe(1);
 		expect(wrapper.find('SimpleLogicComponent').at(0).state().test).toBe(true);

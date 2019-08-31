@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import PropTypes, { any, objectOf, elementType } from 'prop-types';
+import PropTypes, { objectOf, elementType } from 'prop-types';
 
 /*
 	Collector - This is a generic class which may be used directly for hoisting child handles or
@@ -308,7 +308,6 @@ const connect = (Model, name) => TargetComponent => {
       });
 
       _defineProperty(this, "changeEventHandle", () => {
-        console.log('root changeEventHandle invoked and this.root.ref.current is', !!this.root.ref.current);
         this.root.ref.current && this.root.ref.current.forceUpdate();
       });
 
@@ -321,20 +320,14 @@ const connect = (Model, name) => TargetComponent => {
     }
 
     render() {
-      const {
-        hprops,
-        ...rest
-      } = this.props;
       const hset = {
         name,
         register: this.register
       };
-      return React.createElement(React.Fragment, null, React.createElement(HInjector, _extends({
-        hprops: hprops
-      }, rest, {
+      return React.createElement(React.Fragment, null, React.createElement(HInjector, _extends({}, this.props, {
         ref: this.root.ref,
         getCollector: this.getCollector
-      })), React.createElement(Model, _extends({}, hprops, {
+      })), React.createElement(Model, _extends({}, this.props, {
         hset: hset
       })));
     }
@@ -350,13 +343,14 @@ class MapModelComponent extends Component {
 
     _defineProperty(this, "mappedNodes", () => {
       const {
-        hprops,
-        map
+        map,
+        hset,
+        ...rest
       } = this.props;
       return Object.entries(map).map(([name, Model]) => {
         return React.createElement(Model, _extends({
           key: name
-        }, hprops, {
+        }, rest, {
           hset: this.hset(name)
         }));
       });
@@ -370,7 +364,6 @@ class MapModelComponent extends Component {
 }
 
 _defineProperty(MapModelComponent, "propTypes", {
-  hprops: any,
   map: objectOf(elementType).isRequired
 });
 

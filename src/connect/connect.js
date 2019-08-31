@@ -31,7 +31,6 @@ export const connect = (Model, name) => (TargetComponent) => {
 		};
 
 		changeEventHandle = () => {
-			console.log('root changeEventHandle invoked and this.root.ref.current is', !!this.root.ref.current);
 			this.root.ref.current && this.root.ref.current.forceUpdate();
 		};
 
@@ -43,15 +42,14 @@ export const connect = (Model, name) => (TargetComponent) => {
 		getCollector = () => this.root.collector;
 
 		render() {
-			const { hprops, ...rest } = this.props;
 			const hset = { name, register: this.register };
 
 			return (
 				<React.Fragment>
-					{/* hprops are passed on for eventual nested Models and they reach View at the end */}
-					<HInjector hprops={hprops} {...rest} ref={this.root.ref} getCollector={this.getCollector} />
-					{/* hprops are passed to Model to initialise it */}
-					<Model {...hprops} hset={hset} />
+					{/* all props are passed on and TargetComponent will decide their usage. */}
+					<HInjector {...this.props} ref={this.root.ref} getCollector={this.getCollector} />
+					{/* all props are passed to Model and it will decide their usage */}
+					<Model {...this.props} hset={hset} />
 				</React.Fragment>
 			);
 		}
