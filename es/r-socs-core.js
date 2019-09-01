@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import PropTypes, { objectOf, elementType } from 'prop-types';
+import PropTypes, { objectOf, elementType, func } from 'prop-types';
 
 /*
 	Collector - This is a generic class which may be used directly for hoisting child handles or
@@ -344,13 +344,16 @@ class MapModelComponent extends Component {
     _defineProperty(this, "mappedNodes", () => {
       const {
         map,
+        propsMap,
         hset,
         ...rest
       } = this.props;
       return Object.entries(map).map(([name, Model]) => {
+        const props = propsMap && propsMap[name] ? propsMap[name](rest, name) : rest;
         return React.createElement(Model, _extends({
-          key: name
-        }, rest, {
+          key: name,
+          mapKey: name
+        }, props, {
           hset: this.hset(name)
         }));
       });
@@ -364,14 +367,16 @@ class MapModelComponent extends Component {
 }
 
 _defineProperty(MapModelComponent, "propTypes", {
-  map: objectOf(elementType).isRequired
+  map: objectOf(elementType).isRequired,
+  propsMap: objectOf(func)
 });
 
 const MapModel = withCollector(Collector)(MapModelComponent);
 
-const connectMap = (map, name) => {
+const connectMap = (modelMap, name, propsMap) => {
   const CompositeModel = props => React.createElement(MapModel, _extends({}, props, {
-    map: map
+    map: modelMap,
+    propsMap: propsMap
   }));
 
   return connect(CompositeModel, name);

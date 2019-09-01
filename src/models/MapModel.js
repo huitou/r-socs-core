@@ -6,20 +6,24 @@
 	Licensed under the MIT License. See LICENSE file in the project root for full license information.
 */
 import React, { Component, Fragment } from 'react';
-import { objectOf, elementType } from 'prop-types';
+import { objectOf, elementType, func } from 'prop-types';
 
 import Collector, { withCollector } from '../collector/index';
 
 class MapModelComponent extends Component {
 	static propTypes = {
 		map: objectOf(elementType).isRequired,
+		propsMap: objectOf(func)
 	};
 
 	mappedNodes = () => {
-		const { map, hset, ...rest } = this.props;
+		const { map, propsMap, hset, ...rest } = this.props;
 
 		return Object.entries(map).map(([name, Model]) => {
-			return (<Model key={name} {...rest} hset={this.hset(name)} />);
+			const props = (propsMap && propsMap[name])
+				? propsMap[name](rest, name)
+				: rest;
+			return (<Model key={name} mapKey={name} {...props} hset={this.hset(name)} />);
 		});
 	};
 
