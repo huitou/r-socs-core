@@ -4,7 +4,8 @@
   "description": "R-SoCs core library",
   "scripts": {
     "build": "rollup -c",
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "author": "Fuhang Wang <3.riverside.swe@gmail.com>",
   "license": "MIT",

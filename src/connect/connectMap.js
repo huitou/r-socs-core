@@ -10,9 +10,9 @@ import React from 'react';
 import { connect } from './connect';
 import { MapModel } from '../models/index';
 
-export const connectMap = (map, name) => {
+export const connectMap = (modelMap, name, propsMap) => {
 	const CompositeModel = (props) => (
-		<MapModel { ...props } map={map} />
+		<MapModel { ...props } map={modelMap} propsMap={propsMap} />
 	)
 	return connect(CompositeModel, name);
 }
