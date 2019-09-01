@@ -23,7 +23,7 @@ class MapModelComponent extends Component {
 			const props = (propsMap && propsMap[name])
 				? propsMap[name](rest, name)
 				: rest;
-			return (<Model key={name} {...props} hset={this.hset(name)} />);
+			return (<Model key={name} mapKey={name} {...props} hset={this.hset(name)} />);
 		});
 	};
 

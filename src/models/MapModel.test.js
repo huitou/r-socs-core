@@ -25,8 +25,8 @@ const rootHset = { name, register };
 
 // Define a map of SimpleLogic for testing:
 const map = { simple1: SimpleLogic, simple2: SimpleLogic };
-const propsMap = { simple1: () => ({}), simple2: (props, name) => ({ ...props, mapKey: name }) }
-const ownProps = { whatever: {} };
+const propsMap = { simple1: () => ({}), simple2: (props, name) => ({ ...props, initial: props.initials[name] }) }
+const ownProps = { initials: { simple1: 0, simple2: 1 } };
 
 // Mount directly MapModel for testing:
 describe('MapModel,', () => {
@@ -43,20 +43,20 @@ describe('MapModel,', () => {
 	describe('when mounted without propsMap,', () => {
 		it('mapped model 1 have proper props', () => {
 			const { hset, ...rest } = wrapper.find('hCollect(SimpleLogicComponent)').at(0).props();
-			expect(rest).toEqual(ownProps);
+			expect(rest).toEqual({ ...ownProps, mapKey: 'simple1' });
 		});
 		it('mapped model 2 have proper props', () => {
 			const { hset, ...rest } = wrapper.find('hCollect(SimpleLogicComponent)').at(1).props();
-			expect(rest).toEqual(ownProps);
+			expect(rest).toEqual({ ...ownProps, mapKey: 'simple2' });
 		});
 
 		it('mapped model component 1 have proper props', () => {
 			const { hset, ...rest } = wrapper.find('SimpleLogicComponent').at(0).props();
-			expect(rest).toEqual(ownProps);
+			expect(rest).toEqual({ ...ownProps, mapKey: 'simple1' });
 		});
 		it('mapped model component 2 have proper props', () => {
 			const { hset, ...rest } = wrapper.find('SimpleLogicComponent').at(1).props();
-			expect(rest).toEqual(ownProps);
+			expect(rest).toEqual({ ...ownProps, mapKey: 'simple2' });
 		});
 	});
 });
@@ -75,20 +75,20 @@ describe('MapModel,', () => {
 	describe('when mounted with propsMap,', () => {
 		it('mapped model 1 have proper props', () => {
 			const { hset, ...rest } = wrapper.find('hCollect(SimpleLogicComponent)').at(0).props();
-			expect(rest).toEqual({});
+			expect(rest).toEqual({ mapKey: 'simple1' });
 		});
 		it('mapped model 2 have proper props', () => {
 			const { hset, ...rest } = wrapper.find('hCollect(SimpleLogicComponent)').at(1).props();
-			expect(rest).toEqual({ ...ownProps, mapKey: 'simple2' });
+			expect(rest).toEqual({ ...ownProps, mapKey: 'simple2', initial: 1 });
 		});
 
 		it('mapped model component 1 have proper props', () => {
 			const { hset, ...rest } = wrapper.find('SimpleLogicComponent').at(0).props();
-			expect(rest).toEqual({});
+			expect(rest).toEqual({ mapKey: 'simple1' });
 		});
 		it('mapped model component 2 have proper props', () => {
 			const { hset, ...rest } = wrapper.find('SimpleLogicComponent').at(1).props();
-			expect(rest).toEqual({ ...ownProps, mapKey: 'simple2' });
+			expect(rest).toEqual({ ...ownProps, mapKey: 'simple2', initial: 1 });
 		});
 	});
 });

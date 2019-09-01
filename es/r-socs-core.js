@@ -351,7 +351,8 @@ class MapModelComponent extends Component {
       return Object.entries(map).map(([name, Model]) => {
         const props = propsMap && propsMap[name] ? propsMap[name](rest, name) : rest;
         return React.createElement(Model, _extends({
-          key: name
+          key: name,
+          mapKey: name
         }, props, {
           hset: this.hset(name)
         }));
