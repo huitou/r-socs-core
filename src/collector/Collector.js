@@ -37,7 +37,7 @@ const getValueAndHandleNode = (inputNode) => {
 class Collector {
 	/*
 		Constructor expects a configuration object of the following shape:
-		{ register: (Collector) => () => any, name: string }
+		{ name: string, register: (collector: Collector) => () => any}
 	*/
 	constructor({ name, register }) {
 		this._name = name;
