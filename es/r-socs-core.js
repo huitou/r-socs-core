@@ -373,14 +373,6 @@ _defineProperty(MapModelComponent, "propTypes", {
 
 const MapModel = withCollector(Collector)(MapModelComponent);
 
-/*
-	Models directory.
-
-	Copyright (C) 2019 Riverside Software Engineering Ltd. All rights reserved.
-
-	Licensed under the MIT License. See LICENSE file in the project root for full license information.
-*/
-
 const connectMap = (modelMap, name, propsMap) => {
   const CompositeModel = props => React.createElement(MapModel, _extends({}, props, {
     map: modelMap,
@@ -390,20 +382,4 @@ const connectMap = (modelMap, name, propsMap) => {
   return connect(CompositeModel, name);
 };
 
-/*
-	connect directory.
-
-	Copyright (C) 2019 Riverside Software Engineering Ltd. All rights reserved.
-
-	Licensed under the MIT License. See LICENSE file in the project root for full license information.
-*/
-
-/*
-	Library main.
-
-	Copyright (C) 2018-2019 Riverside Software Engineering Ltd. All rights reserved.
-
-	Licensed under the MIT License. See LICENSE file in the project root for full license information.
-*/
-
-export { Collector, withCollector, connect, connectMap };
+export { Collector, connect, connectMap, withCollector };
