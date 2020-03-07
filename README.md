@@ -45,14 +45,14 @@ to be done.
 
 ## Some basic optional conventions:
 
-### Logic and Target artefacts naming convention
+### Service and Consumer artefacts naming convention
 
-1. A model component is named as XxxModelComponent or XxxLogicComponent.
-2. A "collected" model component is named as XxxModel or XxxLogic.
-3. A target component may have any React component name.
+1. A service component is named as XxxServiceComponent, XxxModelComponent or XxxLogicComponent.
+2. A "collected" service component is named as XxxService, XxxModel or XxxLogic.
+3. A consumer component may have any React component name.
 
-### Logic and Target wrapper display names
+### Service and Consumer wrapper display names
 
-1. A "collected" model component is named as hCollect(XxxModelComponent).
-2. A "connected" model-target pair is named as hConnect(hCollect(XxxModelComponent)-TargetComponent).
-3. A "injecting" model-target pair is named as hInject(hCollect(XxxModelComponent)-TargetComponent).
+1. A "collected" service component is named as hCollect(XxxModelComponent).
+2. A "connected" service-consumer pair is named as hConnect(hCollect(XxxModelComponent)-TargetComponent).
+3. A "injecting" service-consumer pair is named as hInject(hCollect(XxxModelComponent)-TargetComponent).
