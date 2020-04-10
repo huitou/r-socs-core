@@ -13,11 +13,11 @@ To make separation of concern practical through composition easier than HoC.
 
 ## How to use it?
 
-### install the library
+### Install the library
 
 npm install --save r-socs-core
 
-### import artefacts of the libary
+### Import artefacts of the libary
 
 ```javascript
 import {
@@ -27,27 +27,39 @@ import {
 } from 'r-socs-core';
 ```
 
-### collect service component
+### Collect service component
 
 See how to create a concrete Collector by extending the generic one in `src/test-helpers/SimpleLogic/SimpleLogicCollector.js` .
 
 See an example of logic component which provides the methods to be collected in `src/test-helpers/SimpleLogic/SimpleLogicComponent.js`.
 
-And see how to put Collector on the logic component to form a service in `src/test-helpers/SimpleLogic/index.js` .
+And see how to put Collector on the logic component to form a service in `src/test-helpers/SimpleLogic/index.js`.
 
+#### Notes
 
-### inject service props into consumer component
+```javascript
+    withCollector(LogicCollector)(LogicComponent);
+```
+provides a special instance function method `this.hset` through extension to the wrapped LogicComponent.
+
+This instance function method should be used to generate the hset props needed to use child services, such as
+
+```javascript
+    <Model {...props} hset={this.hset(name)} />
+```
+where the parameter `name` has the same meaning in `connect(Logic, name)` function.
+
+### Inject service props into consumer component
 
 ```javascript
 import SimpleLogic from '../test-helpers/SimpleLogic';
 import { connect } from './connect';
 
-...
-
+const NAME = 'Test';
 const ServicedComponent = connect(SimpleLogic, NAME)(TargetComponent);
 ```
 
-### use injected props
+### Use injected props
 
 Injected props are just normal props.
 
