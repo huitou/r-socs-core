@@ -19,30 +19,33 @@ npm install --save r-socs-core
 
 ### import artefacts of the libary
 
+```javascript
 import {
     Collector,
 	withCollector,
 	connect
 } from 'r-socs-core';
+```
 
 ### collect service component
 
-See in `src/test-helpers/SimpleLogic/SimpleLogicCollector.js` how to create a concrete Collector by extending the generic one.
+See how to create a concrete Collector by extending the generic one in `src/test-helpers/SimpleLogic/SimpleLogicCollector.js` .
 
-And see in `src/test-helpers/SimpleLogic/SimpleLogicComponent.js` an example of logic component which provides the methods to be collected.
+See an example of logic component which provides the methods to be collected in `src/test-helpers/SimpleLogic/SimpleLogicComponent.js`.
 
-And see in `src/test-helpers/SimpleLogic/index.js` how to put Collector on the logic component to form a service.
+And see how to put Collector on the logic component to form a service in `src/test-helpers/SimpleLogic/index.js` .
 
 
 ### inject service props into consumer component
 
-```import SimpleLogic from '../test-helpers/SimpleLogic';
+```javascript
+import SimpleLogic from '../test-helpers/SimpleLogic';
 import { connect } from './connect';
 
 ...
 
-const ServicedComponent = connect(SimpleLogic, NAME)(TargetComponent);```
-
+const ServicedComponent = connect(SimpleLogic, NAME)(TargetComponent);
+```
 
 ### use injected props
 
