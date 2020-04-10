@@ -27,17 +27,26 @@ import {
 
 ### collect service component
 
-...
+See in `src/test-helpers/SimpleLogic/SimpleLogicCollector.js` how to create a concrete Collector by extending the generic one.
+
+And see in `src/test-helpers/SimpleLogic/SimpleLogicComponent.js` an example of logic component which provides the methods to be collected.
+
+And see in `src/test-helpers/SimpleLogic/index.js` how to put Collector on the logic component to form a service.
 
 
 ### inject service props into consumer component
 
+```import SimpleLogic from '../test-helpers/SimpleLogic';
+import { connect } from './connect';
+
 ...
+
+const ServicedComponent = connect(SimpleLogic, NAME)(TargetComponent);```
 
 
 ### use injected props
 
-
+Injected props are just normal props.
 
 ## Dependnecy:
 
