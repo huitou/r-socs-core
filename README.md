@@ -4,7 +4,7 @@ This is an experimental library to be published soon.
 
 ## What does the library do?
 
-It makes instance methods of a React component available as injected props to another component.
+It makes instance methods of a subtree of React components available as injected props to a consumer component.
 
 ## Why such a library?
 
@@ -25,22 +25,23 @@ import {
 	connect
 } from 'r-socs-core';
 
-### wepper React component
-
-...
-
-### inject props to target component
+### collect service component
 
 ...
 
 
-### use injected props normally
+### inject service props into consumer component
+
+...
+
+
+### use injected props
 
 
 
 ## Dependnecy:
 
-to be done.
+react > 16.8.4
 
 
 ## Some basic optional conventions:
