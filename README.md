@@ -22,8 +22,8 @@ npm install --save r-socs-core
 ```javascript
 import {
     Collector,
-	withCollector,
-	connect
+    withCollector,
+    connect
 } from 'r-socs-core';
 ```
 
@@ -55,7 +55,7 @@ where the parameter `name` has the same meaning in `connect(Logic, name)` functi
 import SimpleLogic from '../test-helpers/SimpleLogic';
 import { connect } from './connect';
 
-const NAME = 'Test';
+const NAME = 'NameOfService';
 const ServicedComponent = connect(SimpleLogic, NAME)(TargetComponent);
 ```
 
