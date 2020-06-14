@@ -1,6 +1,6 @@
 # r-socs-core
 
-This is an experimental library to be published soon.
+Separation of Concerns
 
 ## What does the library do?
 
