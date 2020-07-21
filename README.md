@@ -52,8 +52,9 @@ where the parameter `name` has the same meaning in `connect(Logic, name)` functi
 ### Inject service props into consumer component
 
 ```javascript
+import { connect } from 'r-socs-core';
+
 import SimpleLogic from '../test-helpers/SimpleLogic';
-import { connect } from './connect';
 
 const NAME = 'NameOfService';
 const ServicedComponent = connect(SimpleLogic, NAME)(TargetComponent);
