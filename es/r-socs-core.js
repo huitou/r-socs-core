@@ -281,7 +281,11 @@ function getDisplayName$1(WrappedComponent) {
   return WrappedComponent.displayName || WrappedComponent.name || 'Component';
 }
 
-const connect = (Model, name) => TargetComponent => {
+function unitMap(props) {
+  return { ...props
+  };
+}
+const connect = (Model, name, propsMap = unitMap) => TargetComponent => {
   class HInjector extends React.Component {
     render() {
       const {
@@ -327,7 +331,7 @@ const connect = (Model, name) => TargetComponent => {
       return React.createElement(React.Fragment, null, React.createElement(HInjector, _extends({}, this.props, {
         ref: this.root.ref,
         getCollector: this.getCollector
-      })), React.createElement(Model, _extends({}, this.props, {
+      })), React.createElement(Model, _extends({}, propsMap(this.props), {
         hset: hset
       })));
     }

@@ -73,4 +73,21 @@ describe("connect function", () => {
 			expect(enzymeWrapper.find('TargetComponent').length).toBe(1);
 		});
 	});
+
+	describe("when the returned component is mounted with propsMap", () => {
+		const propsMap = (props) => ({ newWhatever: props.whatever });
+		let ReturnedComponent, enzymeWrapper;
+		beforeEach(() => {
+			ReturnedComponent = connect(SimpleLogic, NAME, propsMap)(TargetComponent);
+			enzymeWrapper = mount(<ReturnedComponent {...ownProps} />);
+		});
+		afterEach(() => {
+			jest.clearAllMocks();
+		});
+
+		it("the logic model receives mapped own props.", () => {
+			const { hset, ...rest } = enzymeWrapper.find(SimpleLogic).props();
+			expect(rest).toEqual({ newWhatever: ownProps.whatever });
+		});
+	});
 });

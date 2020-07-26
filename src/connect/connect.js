@@ -9,9 +9,13 @@ import React from 'react';
 
 function getDisplayName(WrappedComponent) {
 	return WrappedComponent.displayName || WrappedComponent.name || 'Component';
-}
+};
 
-export const connect = (Model, name) => (TargetComponent) => {
+function unitMap(props) {
+	return { ...props };
+};
+
+export const connect = (Model, name, propsMap = unitMap) => (TargetComponent) => {
 	class HInjector extends React.Component {
 		render() {
 			const { getCollector, ...rest } = this.props;
@@ -49,7 +53,7 @@ export const connect = (Model, name) => (TargetComponent) => {
 					{/* all props are passed on and TargetComponent will decide their usage. */}
 					<HInjector {...this.props} ref={this.root.ref} getCollector={this.getCollector} />
 					{/* all props are passed to Model and it will decide their usage */}
-					<Model {...this.props} hset={hset} />
+					<Model {...propsMap(this.props)} hset={hset} />
 				</React.Fragment>
 			);
 		}
