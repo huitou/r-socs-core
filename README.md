@@ -15,7 +15,7 @@ To make separation of concern practical through composition easier than HoC.
 
 ### Install the library
 
-npm install --save r-socs-core
+`npm install --save r-socs-core`
 
 ### Import artefacts of the libary
 
@@ -57,8 +57,14 @@ import { connect } from 'r-socs-core';
 import SimpleLogic from '../test-helpers/SimpleLogic';
 
 const NAME = 'NameOfService';
-const ServicedComponent = connect(SimpleLogic, NAME)(TargetComponent);
+const propsMap = (props) => ({
+    // map received props for ServicedComponent to model/logic's expected props:
+    // ...
+});
+const ServicedComponent = connect(SimpleLogic, NAME, propsMap)(TargetComponent);
 ```
+
+`propsMap` is optional. If it's absent, all received props are passed to the model/logic as is.
 
 ### Use injected props
 
